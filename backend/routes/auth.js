@@ -1,5 +1,5 @@
 const router = require("express").Router();
-const bcrypt = require("bcrypt"); // Import bcrypt library
+const bcrypt = require("bcrypt");
 const User = require("../modals/user");
 
 // SIGN UP
@@ -40,8 +40,8 @@ router.post("/signin", async (req, res) => {
         .status(400)
         .json({ message: "Wrong Password!!! Please enter correct password " });
     }
-const { passsword, ...others } = user._doc;
-res.status(200).json(others);
+    const { passsword, ...others } = user._doc;
+    res.status(200).json(others);
   } catch (error) {
     res.status(400).json({ message: "Internal server error" });
   }
