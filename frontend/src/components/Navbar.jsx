@@ -1,12 +1,16 @@
-import User from '../assets/user.png';
-import './Navbar.css';
+import User from "../assets/user.png";
+import { LuBook } from "react-icons/lu";
+import "./Navbar.css";
 const Navbar = () => {
   return (
     <div>
-      <nav className="navbar navbar-expand-lg ">
+      <nav className="navbar navbar-expand-lg my-2">
         <div className="container">
           <a className="navbar-brand" href="#">
-            <b>Your ToDo</b>
+            <b>
+              <LuBook />
+              &nbsp; ToDo
+            </b>
           </a>
           <button
             className="navbar-toggler"
@@ -26,29 +30,45 @@ const Navbar = () => {
                   Home
                 </a>
               </li>
-              <li className="nav-item">
-                <a className="nav-link active" aria-current="page" href="#">
+              <li className="nav-item mx-1">
+                <a className="nav-link active " aria-current="page" href="#">
                   About US
                 </a>
               </li>
-              <li className="nav-item">
-                <a className="nav-link active" aria-current="page" href="#">
+              <li className="nav-item mx-1">
+                <a
+                  className="nav-link active btn-nav"
+                  aria-current="page"
+                  href="#"
+                >
                   SignUp
                 </a>
               </li>
-              <li className="nav-item">
-                <a className="nav-link active" aria-current="page" href="#">
+              <li className="nav-item mx-1">
+                <a
+                  className="nav-link active btn-nav"
+                  aria-current="page"
+                  href="#"
+                >
                   SignIn
                 </a>
               </li>
-              <li className="nav-item">
-                <a className="nav-link active" aria-current="page" href="#">
+              <li className="nav-item mx-1">
+                <a
+                  className="nav-link active btn-nav"
+                  aria-current="page"
+                  href="#"
+                >
                   Log Out
                 </a>
               </li>
               <li className="nav-item">
                 <a className="nav-link active" aria-current="page" href="#">
-                 <img className='img-fluid user-png' src={User} alt='user-png'></img>
+                  <img
+                    className="img-fluid user-png"
+                    src={User}
+                    alt="user-png"
+                  ></img>
                 </a>
               </li>
             </ul>

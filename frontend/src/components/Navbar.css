@@ -2,3 +2,13 @@
     width: 35px;
     height: 35px;
 }
+.navbar-brand>b {
+    color: rgb(252, 135, 33);
+}
+
+.btn-nav {
+    background-color: rgb(252, 135, 33);
+    border-radius: 5px;
+    color: white !important;
+    font-weight: bold !important;
+}
