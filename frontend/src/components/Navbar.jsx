@@ -1,4 +1,3 @@
-import User from "../assets/user.png";
 import { LuBook } from "react-icons/lu";
 import "./Navbar.css";
 const Navbar = () => {
@@ -36,6 +35,11 @@ const Navbar = () => {
                 </a>
               </li>
               <li className="nav-item mx-1">
+                <a className="nav-link active " aria-current="page" href="#">
+                  ToDo
+                </a>
+              </li>
+              <li className="nav-item mx-1">
                 <a
                   className="nav-link active btn-nav"
                   aria-current="page"
@@ -60,15 +64,6 @@ const Navbar = () => {
                   href="#"
                 >
                   Log Out
-                </a>
-              </li>
-              <li className="nav-item">
-                <a className="nav-link active" aria-current="page" href="#">
-                  <img
-                    className="img-fluid user-png"
-                    src={User}
-                    alt="user-png"
-                  ></img>
                 </a>
               </li>
             </ul>

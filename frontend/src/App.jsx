@@ -1,4 +1,5 @@
 import Navbar from "./components/Navbar";
+import Footer from "./components/footer/Footer";
 import Home from "./components/home/Home";
 
 const App = () => {
@@ -6,6 +7,7 @@ const App = () => {
     <div>
       <Navbar />
       <Home />
+      <Footer />
     </div>
   );
 };

@@ -3,7 +3,7 @@ const Home = () => {
   return (
     <div className="home d-flex justify-content-center align-items-center">
       <div className="container d-flex justify-content-center align-items-center flex-column">
-        <h1>
+        <h1 className="text-center">
           Organize your <br />
           Work and life, finally
         </h1>
@@ -11,6 +11,7 @@ const Home = () => {
           Become focused, orgainzed, and calm with <br />
           todo app. The World&apos;s #1 task manager app.
         </p>
+        <button className="home-btn p-2">Make Todo List</button>
       </div>
     </div>
   );
