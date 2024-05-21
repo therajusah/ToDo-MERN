@@ -16,7 +16,6 @@ const Signin = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-   // todo...
     console.log("Email:", email);
     console.log("Password:", password);
     setEmail("");
