@@ -1,0 +1,24 @@
+.main {
+  height: 80vh;
+  width: 100%;
+}
+.signin-container {
+  max-width: 400px;
+  margin: auto;
+  padding: 20px;
+  margin-top: 8%;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+.signin-container h2 {
+  margin-bottom: 20px;
+}
+
+.signin-container form {
+  margin-bottom: 20px;
+}
+
+.signin-container p {
+  margin-top: 20px;
+}

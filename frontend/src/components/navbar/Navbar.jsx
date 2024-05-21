@@ -1,16 +1,18 @@
 import { LuBook } from "react-icons/lu";
+import { Link } from "react-router-dom"; 
 import "./Navbar.css";
+
 const Navbar = () => {
   return (
     <div>
       <nav className="navbar navbar-expand-lg my-2">
         <div className="container">
-          <a className="navbar-brand" href="#">
+          <Link className="navbar-brand" to="/">
             <b>
               <LuBook />
               &nbsp; ToDo
             </b>
-          </a>
+          </Link>
           <button
             className="navbar-toggler"
             type="button"
@@ -25,46 +27,34 @@ const Navbar = () => {
           <div className="collapse navbar-collapse" id="navbarSupportedContent">
             <ul className="navbar-nav ms-auto mb-2 mb-lg-0">
               <li className="nav-item">
-                <a className="nav-link active" aria-current="page" href="#">
+                <Link className="nav-link active" aria-current="page" to="/">
                   Home
-                </a>
+                </Link>
               </li>
               <li className="nav-item mx-1">
-                <a className="nav-link active " aria-current="page" href="#">
-                  About US
-                </a>
+                <Link className="nav-link active" aria-current="page" to="/about">
+                  About Us
+                </Link>
               </li>
               <li className="nav-item mx-1">
-                <a className="nav-link active " aria-current="page" href="#">
+                <Link className="nav-link active" aria-current="page" to="/todo">
                   ToDo
-                </a>
+                </Link>
               </li>
               <li className="nav-item mx-1">
-                <a
-                  className="nav-link active btn-nav"
-                  aria-current="page"
-                  href="#"
-                >
+                <Link className="nav-link active btn-nav" aria-current="page" to="/signup">
                   SignUp
-                </a>
+                </Link>
               </li>
               <li className="nav-item mx-1">
-                <a
-                  className="nav-link active btn-nav"
-                  aria-current="page"
-                  href="#"
-                >
+                <Link className="nav-link active btn-nav" aria-current="page" to="/signin">
                   SignIn
-                </a>
+                </Link>
               </li>
               <li className="nav-item mx-1">
-                <a
-                  className="nav-link active btn-nav"
-                  aria-current="page"
-                  href="#"
-                >
+                <Link className="nav-link active btn-nav" aria-current="page" to="#">
                   Log Out
-                </a>
+                </Link>
               </li>
             </ul>
           </div>
