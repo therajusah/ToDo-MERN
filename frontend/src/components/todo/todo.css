@@ -55,4 +55,49 @@
   }
 #textarea {
     display: none;
-}  
+} 
+
+
+.todo-body {
+  margin-top: 50px;
+}
+
+.todo-card {
+  border: 1px solid black;
+}
+
+.todo-card-desc {
+  text-justify: inter-word;
+}
+.todo-text-box {
+  min-height: 20vh;
+  min-width: 20vw;
+
+}
+.card-icons {
+  font-size: 18px;
+  cursor: pointer;
+}
+
+.del {
+  color: red;
+
+}
+
+.card-icon-head {
+  cursor: pointer;
+transition: all 0.3;
+}
+.card-icon-head:hover{
+box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+}
+.todo-card-desc {
+  display: -webkit-box;
+  -webkit-line-clamp: 4;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.todo-title {
+  text-justify: inter-word;
+}

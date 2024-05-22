@@ -1,8 +1,10 @@
 import { useState } from "react";
 import "./todo.css";
+import TodoCards from "./TodoCards";
 
 const Todo = () => {
   const [Inputs, setInputs] = useState({ title: "", body: "" });
+  const [Array, setArray] = useState([]);
 
   const show = () => {
     document.getElementById("textarea").style.display = "block";
@@ -12,7 +14,8 @@ const Todo = () => {
     setInputs({ ...Inputs, [name]: value });
   };
   const submit = () => {
-    console.log(Inputs);
+    setArray([...Array, Inputs]);
+    setInputs({ title: "", body: "" });
   };
 
   return (
@@ -42,12 +45,18 @@ const Todo = () => {
             Add Task
           </button>
         </div>
-        {/* <div className="tasks-list w-50 mt-4">
-          <div className="task p-3 mb-2 shadow-sm rounded">
-            <h4>Sample Task Title 1</h4>
-            <p>Sample Task Body 1</p>
+        <div className="todo-body">
+          <div className="container-fluid d-flex">
+            <div className="row">
+              {Array &&
+                Array.map((item, index) => (
+                  <div className="col-lg-3 mx-4 my-2 col-10 row-10 todo-text-box" key={index}>
+                  <TodoCards key={index} title={item.title} body={item.body} />
+                </div>
+                ))}
+            </div>
           </div>
-  */}
+        </div>
       </div>
     </div>
   );
