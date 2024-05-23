@@ -4,6 +4,7 @@
     justify-content: center;
     align-items: flex-start;
     padding-top: 20px;
+    position: relative;
   }
   
   .todo-main {
@@ -100,4 +101,22 @@ box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
 }
 .todo-title {
   text-justify: inter-word;
+}
+
+.todo-update {
+  height: 100%;
+  height: 80vh; 
+  position: fixed;
+  top: 100px;
+  left: 0;
+  width: 100vw;
+  background-color: bisque;
+  display: none;
+}
+
+.update {
+  height: 100%;
+}
+.todo-inputs {
+  border-radius: 10px;
 }

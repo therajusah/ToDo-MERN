@@ -3,7 +3,7 @@ import "./todo.css";
 import { MdDelete } from "react-icons/md";
 import { GrDocumentUpdate } from "react-icons/gr";
 
-const TodoCards = ({ title, body, id, delid}) => {
+const TodoCards = ({ title, body, id, delid, display }) => {
   return (
   
     <div className="p-3 todo-card">
@@ -12,7 +12,9 @@ const TodoCards = ({ title, body, id, delid}) => {
         <p className="todo-card-desc">{body}</p>
       </div>
       <div className="d-flex justify-content-around">
-        <div className="d-flex justify-content-center align-items-center card-icon-head px-2 py-1">
+        <div className="d-flex justify-content-center align-items-center card-icon-head px-2 py-1" onClick={() => {
+          display("block");
+        }}>
           <GrDocumentUpdate className="card-icons" /> Update
         </div>
         <div
@@ -29,10 +31,11 @@ const TodoCards = ({ title, body, id, delid}) => {
 };
 
 TodoCards.propTypes = {
-  id: PropTypes.string.isRequired,
+  id: PropTypes.number.isRequired,
   title: PropTypes.string.isRequired,
   body: PropTypes.string.isRequired,
   delid: PropTypes.func.isRequired,
+  display: PropTypes.func.isRequired, 
 };
 
 export default TodoCards;
