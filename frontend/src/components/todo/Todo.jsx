@@ -1,6 +1,8 @@
 import { useState } from "react";
 import "./todo.css";
 import TodoCards from "./TodoCards";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const Todo = () => {
   const [Inputs, setInputs] = useState({ title: "", body: "" });
@@ -14,12 +16,24 @@ const Todo = () => {
     setInputs({ ...Inputs, [name]: value });
   };
   const submit = () => {
-    setArray([...Array, Inputs]);
-    setInputs({ title: "", body: "" });
+    if (Inputs.title || Inputs.body === "") {
+      toast.error("Title Or Body Should not be empty");
+    } else {
+      setArray([...Array, Inputs]);
+      setInputs({ title: "", body: "" });
+      toast.success("Your Task Is Added");
+      toast.error("Your Task is Not Saved ! Please SignUp");
+    }
+  };
+
+  const del = (id) => {
+    Array.splice(id, "1");
+    setArray([...Array]);
   };
 
   return (
     <div className="todo">
+      <ToastContainer />
       <div className="todo-main container d-flex flex-column align-items-center my-4">
         <div className="d-flex flex-column todo-inputs-div w-50 p-4 shadow-lg rounded p-1">
           <input
@@ -50,9 +64,18 @@ const Todo = () => {
             <div className="row">
               {Array &&
                 Array.map((item, index) => (
-                  <div className="col-lg-3 mx-4 my-2 col-10 row-10 todo-text-box" key={index}>
-                  <TodoCards key={index} title={item.title} body={item.body} />
-                </div>
+                  <div
+                    className="col-lg-3 mx-4 my-2 col-10 row-10 todo-text-box"
+                    key={index}
+                  >
+                    <TodoCards
+                      key={index}
+                      title={item.title}
+                      body={item.body}
+                      id={index}
+                      delid={del}
+                    />
+                  </div>
                 ))}
             </div>
           </div>
