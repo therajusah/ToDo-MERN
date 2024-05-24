@@ -6,18 +6,19 @@ const User = require("../modals/user");
 router.post("/register", async (req, res) => {
   try {
     const { email, username, password } = req.body;
-
-    const hashpassword = await bcrypt.hash(password, 10);
-
     const existingUser = await User.findOne({ $or: [{ email }, { username }] });
     if (existingUser) {
       return res.status(400).json({ message: "User already exists" });
     }
+
+    const hashpassword = await bcrypt.hash(password, 10);
+
     const newUser = new User({ email, username, password: hashpassword });
     await newUser.save();
 
-    res.status(200).json({ message: "User registered successfully" });
+    res.status(200).json({ message: "Sign Up Successful" });
   } catch (error) {
+    console.error("Error in user registration:", error);
     res.status(500).json({ message: "Internal server error" });
   }
 });
@@ -27,23 +28,24 @@ router.post("/signin", async (req, res) => {
   try {
     const user = await User.findOne({ email: req.body.email });
     if (!user) {
-      res
-        .status(400)
-        .json({ message: "You're not registerd please register first" });
+      return res
+        .status(200)
+        .json({ message: "You're not registered. Please register first" });
     }
     const isPasswordCorrect = bcrypt.compareSync(
       req.body.password,
       user.password
     );
     if (!isPasswordCorrect) {
-      res
-        .status(400)
-        .json({ message: "Wrong Password!!! Please enter correct password " });
+      return res
+        .status(200)
+        .json({ message: "Wrong Password. Please enter the correct password" });
     }
-    const { passsword, ...others } = user._doc;
+    const { password, ...others } = user._doc;
     res.status(200).json(others);
   } catch (error) {
-    res.status(400).json({ message: "Internal server error" });
+    console.error("Error in user sign-in:", error);
+    res.status(200).json({ message: "Internal server error" });
   }
 });
 
