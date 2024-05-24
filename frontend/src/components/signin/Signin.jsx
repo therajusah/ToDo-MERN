@@ -27,12 +27,14 @@ const Signin = () => {
       );
       if (response.data && response.data._id) {
         sessionStorage.setItem("id", response.data._id);
+        console.log("User ID set in session storage:", response.data._id);
         dispatch(authActions.login());
         history("/todo");
       } else {
         alert("An error occurred while signing in.");
       }
     } catch (error) {
+      console.error("Sign-in error:", error);
       alert("An error occurred while signing in.");
     }
   };

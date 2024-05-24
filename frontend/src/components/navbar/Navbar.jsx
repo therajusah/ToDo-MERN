@@ -4,7 +4,6 @@ import { useSelector } from "react-redux";
 import "./Navbar.css";
 import { useDispatch } from "react-redux";
 import { authActions } from "../../store";
-
 const Navbar = () => {
   const isLoggedIn = useSelector((state) => state.isLoggedIn);
   const dispatch = useDispatch();
