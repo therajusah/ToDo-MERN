@@ -6,8 +6,17 @@ import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import Signup from "./components/signup/Signup";
 import Signin from "./components/signin/Signin";
 import Todo from "./components/todo/Todo";
+import { useEffect } from "react";
+import { useDispatch } from "react-redux";
+import { authActions } from "./store";
 
 const App = () => {
+  const dispatch = useDispatch();
+  useEffect(() => {
+    const id = (sessionStorage.getItem("id"));
+  if (id){dispatch(authActions.login());
+  }
+  }, []);
   return (
     <div>
       <Router>

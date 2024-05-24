@@ -1,8 +1,41 @@
 import { useState, useEffect, useMemo } from "react";
-import { Link } from "react-router-dom"; // Import Link from react-router-dom for navigation
+import { Link } from "react-router-dom";
 import "./signup.css";
+import axios from "axios";
+import { useNavigate } from "react-router-dom"; 
+
 
 const Signup = () => {
+  const history = useNavigate();
+
+  const [Inputs, setInputs] = useState({
+    email: "",
+    username: "",
+    password: "",
+  });
+  const change = (e) => {
+    const { name, value } = e.target;
+    setInputs({ ...Inputs, [name]: value });
+  };
+
+  const submit = async (e) => {
+    e.preventDefault();
+    try {
+      const response = await axios.post("http://localhost:1000/api/v1/register", Inputs);
+      alert(response.data.message);
+      setInputs({
+        email: "",
+        username: "",
+        password: "",
+      });
+      if (response.data.message === "Sign Up Successful" ) {
+        history("/signin");
+      }
+    } catch (error) {
+      alert(error.response.data.message);
+    }
+  };
+  
   const [quote, setQuote] = useState("");
 
   const quotes = useMemo(
@@ -48,6 +81,8 @@ const Signup = () => {
                   placeholder="Enter your Email"
                   className="form-control"
                   name="email"
+                  onChange={change}
+                  value={Inputs.email}
                 />
               </div>
               <div className="input-group mb-3">
@@ -56,6 +91,8 @@ const Signup = () => {
                   placeholder="Type your username"
                   className="form-control"
                   name="username"
+                  onChange={change}
+                  value={Inputs.username}
                 />
               </div>
               <div className="input-group mb-3">
@@ -64,10 +101,16 @@ const Signup = () => {
                   placeholder="Password"
                   className="form-control"
                   name="password"
+                  onChange={change}
+                  value={Inputs.password}
                 />
               </div>
-              <button className="btn btn-primary w-100">Sign Up</button>
-              <p className="mt-3">Already have an account? <Link to="/signin">Sign in</Link></p>
+              <button className="btn btn-primary w-100" onClick={submit}>
+                Sign Up
+              </button>
+              <p className="mt-3">
+                Already have an account? <Link to="/signin">Sign in</Link>
+              </p>
             </div>
           </div>
           <div className="col-lg-6 d-flex justify-content-center align-items-center">
