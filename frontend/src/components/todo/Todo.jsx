@@ -5,12 +5,13 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Update from "./Update";
 import axios from "axios";
-let id = sessionStorage.getItem("id");
-console.log(id);
+
 const Todo = () => {
   const [Inputs, setInputs] = useState({ title: "", body: "" });
   const [Array, setArray] = useState([]);
 
+  let id = sessionStorage.getItem("id");
+  console.log(id);
 
   const show = () => {
     document.getElementById("textarea").style.display = "block";
@@ -40,7 +41,7 @@ const Todo = () => {
         console.log(response);
 
         setInputs({ title: "", body: "" });
-        setArray([...Array, response.data.list]);
+        setArray((prevArray) => [...prevArray, response.data.list]);
         toast.success("Your Task is Added");
       } catch (error) {
         console.error("Error adding task:", error);
@@ -51,27 +52,42 @@ const Todo = () => {
     }
   };
 
-  const del = (id) => {
-    Array.splice(id, 1);
-    setArray([...Array]);
+  const del = async (Cardid) => {
+    try {
+      const response = await axios.delete(
+        `http://localhost:1000/api/v2/deleteTask/${Cardid}`,
+        {
+          data: { id: id },
+        }
+      );
+      console.log(response.data);
+      setArray((prevArray) => prevArray.filter((task) => task._id !== Cardid));
+      toast.success("Task deleted successfully");
+    } catch (error) {
+      console.error("Error deleting task:", error);
+      toast.error("Failed to delete task. Please try again.");
+    }
   };
 
   const dis = (value) => {
     document.getElementById("todo-update").style.display = value;
   };
 
-
   useEffect(() => {
     const fetch = async () => {
-      await axios
-        .get(`http://localhost:1000/api/v2/getTasks/${id}`)
-        .then((response) => {
-          setArray(response.data.list);
-        });
+      try {
+        const response = await axios.get(
+          `http://localhost:1000/api/v2/getTasks/${id}`
+        );
+        setArray(response.data.list);
+      } catch (error) {
+        console.error("Error fetching tasks:", error);
+      }
     };
-    fetch();
-  }, [submit]);
-
+    if (id) {
+      fetch();
+    }
+  }, [id]);
 
   return (
     <>
@@ -112,10 +128,9 @@ const Todo = () => {
                       key={index}
                     >
                       <TodoCards
-                        key={index}
                         title={item.title}
                         body={item.body}
-                        id={index}
+                        id={item._id}
                         delid={del}
                         display={dis}
                       />

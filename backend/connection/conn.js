@@ -3,9 +3,17 @@ const mongoose = require("mongoose");
 
 const connectToMongoDB = async () => {
     try {
-        const { DB_USERNAME, DB_PASSWORD } = process.env;
+        const { DB_USERNAME, DB_PASSWORD, DB_NAME } = process.env;
+        
+        if (!DB_USERNAME || !DB_PASSWORD || !DB_NAME) {
+            throw new Error("Missing required environment variables");
+        }
+
         const encodedPassword = encodeURIComponent(DB_PASSWORD);
-        await mongoose.connect(`mongodb+srv://${DB_USERNAME}:${encodedPassword}@cluster0.83rwe1r.mongodb.net/yourDatabaseName`);
+        const mongoURI = `mongodb+srv://${DB_USERNAME}:${encodedPassword}@cluster0.83rwe1r.mongodb.net/${DB_NAME}?retryWrites=true&w=majority`;
+
+        await mongoose.connect(mongoURI);
+        
         console.log("Connected to MongoDB");
     } catch (error) {
         console.error("Error connecting to MongoDB:", error);
@@ -13,4 +21,4 @@ const connectToMongoDB = async () => {
     }
 };
 
-connectToMongoDB();
+module.exports = connectToMongoDB;

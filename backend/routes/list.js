@@ -60,7 +60,6 @@ router.delete('/deleteTask/:id', async (req, res) => {
         );
 
         if (existingUser) {
-            // deleting the task in database by finding the id (provided in `req.params.id`)
             await List.findByIdAndDelete(req.params.id).then(() =>
                 res.status(200).json({ message: "Task Deleted!" })
             );
