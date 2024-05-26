@@ -1,30 +1,53 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import "./todo.css";
-
 import TodoCards from "./TodoCards";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Update from "./Update";
-
+import axios from "axios";
+let id = sessionStorage.getItem("id");
+console.log(id);
 const Todo = () => {
   const [Inputs, setInputs] = useState({ title: "", body: "" });
   const [Array, setArray] = useState([]);
 
+
   const show = () => {
     document.getElementById("textarea").style.display = "block";
   };
+
   const change = (e) => {
     const { name, value } = e.target;
     setInputs({ ...Inputs, [name]: value });
   };
-  const submit = () => {
-    if (Inputs.title === "" || Inputs.body === "") {
-      toast.error("Title Or Body Should not be empty");
+
+  const submit = async () => {
+    if (!Inputs.title || !Inputs.body) {
+      toast.error("Title or Body should not be empty");
+      return;
+    }
+
+    if (id) {
+      try {
+        const response = await axios.post(
+          "http://localhost:1000/api/v2/addTask",
+          {
+            title: Inputs.title,
+            body: Inputs.body,
+            id: id,
+          }
+        );
+        console.log(response);
+
+        setInputs({ title: "", body: "" });
+        setArray([...Array, response.data.list]);
+        toast.success("Your Task is Added");
+      } catch (error) {
+        console.error("Error adding task:", error);
+        toast.error("Failed to add task. Please try again.");
+      }
     } else {
-      setArray([...Array, Inputs]);
-      setInputs({ title: "", body: "" });
-      toast.success("Your Task Is Added");
-      toast.error("Your Task is Not Saved ! Please SignUp");
+      toast.error("Your Task is Not Saved! Please Sign Up");
     }
   };
 
@@ -34,9 +57,21 @@ const Todo = () => {
   };
 
   const dis = (value) => {
-  
     document.getElementById("todo-update").style.display = value;
   };
+
+
+  useEffect(() => {
+    const fetch = async () => {
+      await axios
+        .get(`http://localhost:1000/api/v2/getTasks/${id}`)
+        .then((response) => {
+          setArray(response.data.list);
+        });
+    };
+    fetch();
+  }, [submit]);
+
 
   return (
     <>
