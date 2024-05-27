@@ -1,91 +1,86 @@
-import { useEffect, useState } from "react";
-import "./todo.css";
-import TodoCards from "./TodoCards";
-import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
-import Update from "./Update";
-import axios from "axios";
+import { useEffect, useState } from 'react';
+import './todo.css';
+import TodoCards from './TodoCards';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import Update from './Update';
+import axios from 'axios';
 
 const Todo = () => {
-  const [Inputs, setInputs] = useState({ title: "", body: "" });
-  const [Array, setArray] = useState([]);
+  const [inputs, setInputs] = useState({ title: '', body: '' });
+  const [tasks, setTasks] = useState([]);
+  const [toUpdateTask, setToUpdateTask] = useState(null);
 
-  let id = sessionStorage.getItem("id");
-  console.log(id);
+  const id = sessionStorage.getItem('id');
 
-  const show = () => {
-    document.getElementById("textarea").style.display = "block";
+  const showTextarea = () => {
+    document.getElementById('textarea').style.display = 'block';
   };
 
-  const change = (e) => {
+  const handleChange = (e) => {
     const { name, value } = e.target;
-    setInputs({ ...Inputs, [name]: value });
+    setInputs({ ...inputs, [name]: value });
   };
 
-  const submit = async () => {
-    if (!Inputs.title || !Inputs.body) {
-      toast.error("Title or Body should not be empty");
+  const handleAddTask = async () => {
+    if (!inputs.title || !inputs.body) {
+      toast.error('Title or Body should not be empty');
       return;
     }
 
     if (id) {
       try {
-        const response = await axios.post(
-          "http://localhost:1000/api/v2/addTask",
-          {
-            title: Inputs.title,
-            body: Inputs.body,
-            id: id,
-          }
-        );
-        console.log(response);
+        const response = await axios.post('http://localhost:1000/api/v2/addTask', {
+          title: inputs.title,
+          body: inputs.body,
+          id: id,
+        });
 
-        setInputs({ title: "", body: "" });
-        setArray((prevArray) => [...prevArray, response.data.list]);
-        toast.success("Your Task is Added");
+        setInputs({ title: '', body: '' });
+        setTasks((prevTasks) => [...prevTasks, response.data.list]);
+        toast.success('Your Task is Added');
       } catch (error) {
-        console.error("Error adding task:", error);
-        toast.error("Failed to add task. Please try again.");
+        console.error('Error adding task:', error);
+        toast.error('Failed to add task. Please try again.');
       }
     } else {
-      toast.error("Your Task is Not Saved! Please Sign Up");
+      toast.error('Your Task is Not Saved! Please Sign Up');
     }
   };
 
-  const del = async (Cardid) => {
+  const handleDeleteTask = async (taskId) => {
     try {
-      const response = await axios.delete(
-        `http://localhost:1000/api/v2/deleteTask/${Cardid}`,
-        {
-          data: { id: id },
-        }
-      );
-      console.log(response.data);
-      setArray((prevArray) => prevArray.filter((task) => task._id !== Cardid));
-      toast.success("Task deleted successfully");
+      await axios.delete(`http://localhost:1000/api/v2/deleteTask/${taskId}`, {
+        data: { id: id },
+      });
+      setTasks((prevTasks) => prevTasks.filter((task) => task._id !== taskId));
+      toast.success('Task deleted successfully');
     } catch (error) {
-      console.error("Error deleting task:", error);
-      toast.error("Failed to delete task. Please try again.");
+      console.error('Error deleting task:', error);
+      toast.error('Failed to delete task. Please SignUp First');
     }
   };
 
-  const dis = (value) => {
-    document.getElementById("todo-update").style.display = value;
+  const handleDisplayUpdate = (value) => {
+    document.getElementById('todo-update').style.display = value;
+  };
+
+  const handleUpdateTask = (index) => {
+    setToUpdateTask(tasks[index]);
   };
 
   useEffect(() => {
-    const fetch = async () => {
+    const fetchTasks = async () => {
       try {
-        const response = await axios.get(
-          `http://localhost:1000/api/v2/getTasks/${id}`
-        );
-        setArray(response.data.list);
+        const response = await axios.get(`http://localhost:1000/api/v2/getTasks/${id}`);
+        setTasks(response.data.list);
       } catch (error) {
-        console.error("Error fetching tasks:", error);
+        console.error('Error fetching tasks:', error);
       }
     };
+
     if (id) {
-      fetch();
+      fetchTasks();
     }
   }, [id]);
 
@@ -99,40 +94,41 @@ const Todo = () => {
               type="text"
               placeholder="Title"
               className="my-2 p-2 todo-inputs"
-              onClick={show}
-              value={Inputs.title}
+              onClick={showTextarea}
+              value={inputs.title}
               name="title"
-              onChange={change}
+              onChange={handleChange}
             />
             <textarea
-              type="text"
               placeholder="Body"
               name="body"
               className="p-2 my-2 todo-inputs"
               rows="2"
               id="textarea"
-              value={Inputs.body}
-              onChange={change}
+              value={inputs.body}
+              onChange={handleChange}
             />
-            <button className="btn btn-primary mt-2" onClick={submit}>
+            <button className="btn btn-primary mt-2" onClick={handleAddTask}>
               Add Task
             </button>
           </div>
           <div className="todo-body">
             <div className="container-fluid d-flex">
               <div className="row">
-                {Array &&
-                  Array.map((item, index) => (
+                {tasks &&
+                  tasks.map((item, index) => (
                     <div
                       className="col-lg-3 mx-4 my-2 col-10 row-10 todo-text-box"
-                      key={index}
+                      key={item._id}
                     >
                       <TodoCards
                         title={item.title}
                         body={item.body}
                         id={item._id}
-                        delid={del}
-                        display={dis}
+                        delid={handleDeleteTask}
+                        display={handleDisplayUpdate}
+                        updateId={index}
+                        toBeUpdate={handleUpdateTask}
                       />
                     </div>
                   ))}
@@ -141,8 +137,10 @@ const Todo = () => {
           </div>
         </div>
       </div>
-      <div className="todo-update" id="todo-update">
-        <Update display={dis} />
+      <div className="todo-update" id="todo-update" style={{ display: 'none' }}>
+        {toUpdateTask && (
+          <Update display={handleDisplayUpdate} update={toUpdateTask} />
+        )}
         <div className="container update"></div>
       </div>
     </>

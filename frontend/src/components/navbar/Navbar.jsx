@@ -21,6 +21,7 @@ const logout = () => {
               &nbsp; ToDo
             </b>
           </Link>
+          
           <button
             className="navbar-toggler"
             type="button"
@@ -58,7 +59,7 @@ const logout = () => {
                 </Link>
               </li>
               {isLoggedIn ? (
-                <>
+                  <div>
                   <li className="nav-item mx-1">
                     <Link
                       className="nav-link active btn-nav"
@@ -70,9 +71,9 @@ const logout = () => {
                     </Link>
                  
                   </li>
-                </>
+                  </div>
               ) : (
-                <>
+                <div>
                   <li className="nav-item mx-1">
                     <Link
                       className="nav-link active btn-nav"
@@ -91,7 +92,7 @@ const logout = () => {
                       Sign In
                     </Link>
                   </li>
-                </>
+                </div>
               )}
             </ul>
           </div>
