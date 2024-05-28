@@ -30,7 +30,7 @@ const Todo = () => {
 
     if (id) {
       try {
-        const response = await axios.post('http://localhost:1000/api/v2/addTask', {
+        const response = await axios.post(`${window.location.origin}/api/v2/addTask`, {
           title: inputs.title,
           body: inputs.body,
           id: id,
@@ -50,7 +50,7 @@ const Todo = () => {
 
   const handleDeleteTask = async (taskId) => {
     try {
-      await axios.delete(`http://localhost:1000/api/v2/deleteTask/${taskId}`, {
+      await axios.delete(`${window.location.origin}/api/v2/deleteTask/${taskId}`, {
         data: { id: id },
       });
       setTasks((prevTasks) => prevTasks.filter((task) => task._id !== taskId));
@@ -72,7 +72,7 @@ const Todo = () => {
   useEffect(() => {
     const fetchTasks = async () => {
       try {
-        const response = await axios.get(`http://localhost:1000/api/v2/getTasks/${id}`);
+        const response = await axios.get(`${window.location.origin}/api/v2/getTasks/${id}`);
         setTasks(response.data.list);
       } catch (error) {
         console.error('Error fetching tasks:', error);

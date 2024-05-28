@@ -7,10 +7,10 @@ import { authActions } from "../../store";
 const Navbar = () => {
   const isLoggedIn = useSelector((state) => state.isLoggedIn);
   const dispatch = useDispatch();
-const logout = () => {
-  sessionStorage.clear("id");
-  dispatch(authActions.login());
-}
+  const logout = () => {
+    sessionStorage.clear("id");
+    dispatch(authActions.login());
+  };
   return (
     <div>
       <nav className="navbar navbar-expand-lg my-2">
@@ -68,7 +68,6 @@ const logout = () => {
                     >
                       Log Out
                     </Link>
-                 
                   </li>
                 </>
               ) : (

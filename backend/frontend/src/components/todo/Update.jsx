@@ -33,7 +33,7 @@ const Update = ({ display, update }) => {
 
     setLoading(true);
     try {
-      await axios.put(`http://localhost:1000/api/v2/updateTask/${update._id}`, inputs);
+      await axios.put(`${window.location.origin}/api/v2/updateTask/${update._id}`, inputs);
       toast.success('Task Updated Successfully');
       display('none');
       // Todo
