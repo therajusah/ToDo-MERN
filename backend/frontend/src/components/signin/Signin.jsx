@@ -13,8 +13,6 @@ const Signin = () => {
     password: "",
   });
 
-  // 665322dc3ac05070e88b29a1
-
   const handleChange = (e) => {
     const { name, value } = e.target;
     setInputs({ ...inputs, [name]: value });
@@ -23,10 +21,8 @@ const Signin = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post(
-        "http://localhost:1000/api/v1/signin",
-        inputs
-      );
+      const baseUrl = window.location.origin;
+      const response = await axios.post(`${baseUrl}/api/v1/signin`, inputs);
       if (response.data && response.data._id) {
         sessionStorage.setItem("id", response.data._id);
         console.log("User ID set in session storage:", response.data._id);
