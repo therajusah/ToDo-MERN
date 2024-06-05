@@ -1,4 +1,3 @@
-```markdown
 ## Project Setup and Running Locally
 
 This project uses the MERN (MongoDB, Express.js, React.js, Node.js) stack. Follow the steps below to set up and run the project on your local machine.
@@ -89,5 +88,3 @@ ToDo-MERN/
 
 - If you happen to have issues with CORS, please make sure your backend server is configured to accept requests from your front end.
 - Check that all necessary environment variables are correctly set in the `.env` file.
-
-```
