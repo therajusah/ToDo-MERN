@@ -9,9 +9,7 @@ import axios from "axios";
 const Todo = () => {
   const [Inputs, setInputs] = useState({ title: "", body: "" });
   const [tasks, setTasks] = useState([]);
-
-  let id = sessionStorage.getItem("id");
-  console.log(id);
+  const id = sessionStorage.getItem("id");
 
   const show = () => {
     document.getElementById("textarea").style.display = "block";
@@ -22,44 +20,38 @@ const Todo = () => {
     setInputs({ ...Inputs, [name]: value });
   };
 
-const submit = async () => {
-  if (id) {
-    try {
-      const response = await axios.post(`${window.location.origin}/api/v2/addTask`, `{
-        title: Inputs.title,
-        body: Inputs.body,
-        id: id,
-      }`);
+  const submit = async () => {
+    if (id) {
+      try {
+        const response = await axios.post(`${window.location.origin}/api/v2/addTask`, {
+          title: Inputs.title,
+          body: Inputs.body,
+          id: id,
+        });
 
-      console.log(response);
+        console.log(response);
 
-      setInputs({ title: "", body: "" });
-      setTasks((prevTasks) => [...prevTasks, response.data]);
-      toast.success("Your Task is Added");
-    } catch (error) {
-      console.error("Error adding task:", error);
-      toast.error("Failed to add task. Please try again.");
+        setInputs({ title: "", body: "" });
+        setTasks((prevTasks) => [...prevTasks, response.data]);
+        toast.success("Your Task is Added");
+      } catch (error) {
+        console.error("Error adding task:", error);
+        toast.error("Failed to add task. Please try again.");
+      }
+    } else {
+      toast.error("Your Task is Not Saved! Please Sign Up");
     }
-  } else {
-    toast.error("Your Task is Not Saved! Please Sign Up");
-  }
-};
-
+  };
 
   const del = async (Cardid) => {
     try {
       const response = await axios.delete(
-        `${window.location.origin}/api/v2/deleteTask/${Cardid}`
-        );
+        `${window.location.origin}/api/v2/deleteTask/${Cardid}`,
         {
           data: { id: id },
         }
       );
 
-
-
-
-      
       setTasks((prevTasks) => prevTasks.filter((task) => task._id !== Cardid));
       toast.success("Task deleted successfully");
     } catch (error) {
