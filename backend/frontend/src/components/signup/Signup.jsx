@@ -2,7 +2,8 @@ import { useState, useEffect, useMemo } from "react";
 import { Link } from "react-router-dom";
 import "./signup.css";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom"; 
+
 
 const Signup = () => {
   const history = useNavigate();
@@ -12,7 +13,6 @@ const Signup = () => {
     username: "",
     password: "",
   });
-
   const change = (e) => {
     const { name, value } = e.target;
     setInputs({ ...Inputs, [name]: value });
@@ -21,22 +21,21 @@ const Signup = () => {
   const submit = async (e) => {
     e.preventDefault();
     try {
-      const baseUrl = window.location.origin;
-      const response = await axios.post(`${baseUrl}/api/v1/register`, Inputs);
+      const response = await axios.post(`${window.location.origin}/api/v1/register`, Inputs);
       alert(response.data.message);
       setInputs({
         email: "",
         username: "",
         password: "",
       });
-      if (response.data.message === "Sign Up Successful") {
+      if (response.data.message === "Sign Up Successful" ) {
         history("/signin");
       }
     } catch (error) {
       alert(error.response.data.message);
     }
   };
-
+  
   const [quote, setQuote] = useState("");
 
   const quotes = useMemo(
