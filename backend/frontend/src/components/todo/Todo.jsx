@@ -25,11 +25,11 @@ const Todo = () => {
 const submit = async () => {
   if (id) {
     try {
-      const response = await axios.post(`${window.location.origin}/api/v2/addTask`, {
+      const response = await axios.post(`${window.location.origin}/api/v2/addTask`, `{
         title: Inputs.title,
         body: Inputs.body,
         id: id,
-      });
+      }`);
 
       console.log(response);
 
