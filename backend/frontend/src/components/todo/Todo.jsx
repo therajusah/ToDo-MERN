@@ -22,34 +22,29 @@ const Todo = () => {
     setInputs({ ...Inputs, [name]: value });
   };
 
-  const submit = async () => {
-    if (!Inputs.title || !Inputs.body) {
-      toast.error("Title or Body should not be empty");
-      return;
-    }
+const submit = async () => {
+  if (id) {
+    try {
+      const response = await axios.post(`${window.location.origin}/api/v2/addTask`, {
+        title: Inputs.title,
+        body: Inputs.body,
+        id: id,
+      });
 
-    if (id) {
-      try {
-  const response = await axios.get(`${window.location.origin}/api/v2/getTasks/${id}`);
-          {
-            title: Inputs.title,
-            body: Inputs.body,
-            id: id,
-          }
-        );
-        console.log(response);
+      console.log(response);
 
-        setInputs({ title: "", body: "" });
-        setTasks((prevTasks) => [...prevTasks, response.data.list]);
-        toast.success("Your Task is Added");
-      } catch (error) {
-        console.error("Error adding task:", error);
-        toast.error("Failed to add task. Please try again.");
-      }
-    } else {
-      toast.error("Your Task is Not Saved! Please Sign Up");
+      setInputs({ title: "", body: "" });
+      setTasks((prevTasks) => [...prevTasks, response.data]);
+      toast.success("Your Task is Added");
+    } catch (error) {
+      console.error("Error adding task:", error);
+      toast.error("Failed to add task. Please try again.");
     }
-  };
+  } else {
+    toast.error("Your Task is Not Saved! Please Sign Up");
+  }
+};
+
 
   const del = async (Cardid) => {
     try {
