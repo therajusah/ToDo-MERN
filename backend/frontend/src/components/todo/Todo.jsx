@@ -80,9 +80,7 @@ const Todo = () => {
   useEffect(() => {
     const fetchTasks = async () => {
       try {
-        const response = await axios.get(
-          `http://localhost:1000/api/v2/getTasks/${id}`
-        );
+        const response = await axios.get(`${window.location.origin}/api/v2/getTasks/${id}`);
         setTasks(response.data.list);
       } catch (error) {
         console.error("Error fetching tasks:", error);
