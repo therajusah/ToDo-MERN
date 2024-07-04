@@ -21,8 +21,10 @@ const Signin = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const baseUrl = window.location.origin;
-      const response = await axios.post(`${baseUrl}/api/v1/signin`, inputs);
+      const response = await axios.post(
+        `${window.location.origin}/api/v1/signin`,
+        inputs
+      );
       if (response.data && response.data._id) {
         sessionStorage.setItem("id", response.data._id);
         console.log("User ID set in session storage:", response.data._id);
